@@ -1,0 +1,24 @@
+AS = yasm
+CXX = g++
+LIBS = -lwinmm -lgdi32
+
+GAME_TRACE =
+GAME_ROM =
+GAME_ASM =
+GAME_OBJ =
+
+task build_emu
+	print Building Recomp Emulation Layer...
+	cmd $(CXX) -o emu emu.cc $(GAME_OBJ) -I. $(LIBS)
+
+task build_game
+	print Assembling Reassembled game...
+	cmd $(AS) -f win64 $(GAME_ASM) -o $(GAME_OBJ)
+
+task build_recomp
+	print Building SNES Recompiler...
+	cmd $(CXX) -o recomp recomp.cc $(GAME_OBJ)
+
+task recomp_game
+	print Reassembling game trace...
+	cmd recomp $(GAME_TRACE) $(GAME_ROM) > $(GAME_ASM)
